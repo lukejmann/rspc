@@ -89,6 +89,7 @@ members = [
     "./examples",
     "./examples/axum",
     "./examples/vercel",
+    "./codemod"
 ]
 
 [patch.crates-io]
