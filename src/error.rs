@@ -204,12 +204,9 @@ impl ErrorCode {
 #[cfg(feature = "anyhow")]
 impl From<anyhow::Error> for Error {
     fn from(value: anyhow::Error) -> Self {
-        // let transform_function =
-        //     |error: anyhow::Error| -> Box<dyn std::error::Error + Send + Sync> { Box::new(error) };
-
         Error {
             code: ErrorCode::InternalServerError,
-            message: value.backtrace().as_display().to_string(),
+            message: format!("anyhow: {:?}", value),
             cause: None,
         }
     }

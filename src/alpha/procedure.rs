@@ -441,8 +441,8 @@ impl<
             }
             PinnedOptionProj::None => {}
         }
-
-        unreachable!()
+        // return;
+        unreachable!();
     }
 
     fn size_hint(&self) -> (usize, Option<usize>) {
