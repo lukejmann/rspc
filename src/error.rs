@@ -1,7 +1,9 @@
 use std::{error, fmt, sync::Arc};
 
+use anyhow::anyhow;
 use serde::Serialize;
 use specta::{ts::TsExportError, Type};
+use thiserror::__private::DisplayAsDisplay;
 
 use crate::internal::jsonrpc::JsonRPCError;
 
@@ -201,11 +203,14 @@ impl ErrorCode {
 
 #[cfg(feature = "anyhow")]
 impl From<anyhow::Error> for Error {
-    fn from(_value: anyhow::Error) -> Self {
+    fn from(value: anyhow::Error) -> Self {
+        // let transform_function =
+        //     |error: anyhow::Error| -> Box<dyn std::error::Error + Send + Sync> { Box::new(error) };
+
         Error {
             code: ErrorCode::InternalServerError,
-            message: "internal server errror (cargo test)".to_string(),
-            cause: None, // TODO: Make this work
+            message: value.backtrace().as_display().to_string(),
+            cause: None,
         }
     }
 }
